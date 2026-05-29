@@ -45,22 +45,40 @@ function App() {
   }
 
   return (
+
     <div
       style={{
+        minHeight: "100vh",
+        backgroundColor: "#ffffff",
+        paddingTop: "50px",
         fontFamily: "Arial",
         textAlign: "center",
-        marginTop: "50px",
       }}
     >
-      <h1 style={{ color: "green" }}>
+
+      <h1
+        style={{
+          color: "green",
+          fontSize: "42px",
+        }}
+      >
         Haryana Roadways
       </h1>
 
-      <p>
-        Search Bus Routes and Timings
+      <p
+        style={{
+          fontSize: "18px",
+          color: "#01301d",
+        }}
+      >
+        Search Bus Routes and Timings Easily
       </p>
 
-      <div style={{ marginTop: "30px" }}>
+      <div
+        style={{
+          marginTop: "30px",
+        }}
+      >
 
         <input
           type="text"
@@ -68,10 +86,12 @@ function App() {
           value={fromCity}
           onChange={(e) => setFromCity(e.target.value)}
           style={{
-            padding: "10px",
-            width: "250px",
+            padding: "12px",
+            width: "260px",
             marginRight: "10px",
-            borderRadius: "5px",
+            borderRadius: "8px",
+            border: "1px solid gray",
+            fontSize: "16px",
           }}
         />
 
@@ -81,29 +101,37 @@ function App() {
           value={toCity}
           onChange={(e) => setToCity(e.target.value)}
           style={{
-            padding: "10px",
-            width: "250px",
-            borderRadius: "5px",
+            padding: "12px",
+            width: "260px",
+            borderRadius: "8px",
+            border: "1px solid gray",
+            fontSize: "16px",
           }}
         />
+
       </div>
 
       <button
         onClick={handleSearch}
         style={{
-          marginTop: "20px",
-          padding: "10px 25px",
+          marginTop: "25px",
+          padding: "12px 30px",
           backgroundColor: "green",
           color: "white",
           border: "none",
-          borderRadius: "5px",
+          borderRadius: "8px",
           cursor: "pointer",
+          fontSize: "16px",
         }}
       >
         Search Buses
       </button>
 
-      <div style={{ marginTop: "40px" }}>
+      <div
+        style={{
+          marginTop: "50px",
+        }}
+      >
 
         {results.length > 0 ? (
 
@@ -112,31 +140,42 @@ function App() {
             <div
               key={index}
               style={{
-                border: "1px solid gray",
-                width: "400px",
+                backgroundColor: "white",
+                width: "420px",
                 margin: "20px auto",
                 padding: "20px",
-                borderRadius: "10px",
+                borderRadius: "12px",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
               }}
             >
-              <h3>
-                {bus.from} → {bus.to}
-              </h3>
 
-              <p>
-                Time: {bus.time}
+              <h2 style={{ color: "green" }}>
+                {bus.from} → {bus.to}
+              </h2>
+
+              <p style={{ fontSize: "18px" }}>
+                🕒 Time: {bus.time}
               </p>
 
-              <p>
-                Bus Type: {bus.type}
+              <p style={{ fontSize: "18px" }}>
+                🚌 Bus Type: {bus.type}
               </p>
 
             </div>
+
           ))
 
         ) : (
 
-          <p>No buses found</p>
+          <p
+            style={{
+              marginTop: "30px",
+              color: "gray",
+              fontSize: "18px",
+            }}
+          >
+            No buses found
+          </p>
 
         )}
 

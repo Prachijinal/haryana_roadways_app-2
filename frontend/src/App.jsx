@@ -4,9 +4,44 @@ function App() {
 
   const [fromCity, setFromCity] = useState("");
   const [toCity, setToCity] = useState("");
+  const [results, setResults] = useState([]);
+
+  const buses = [
+    {
+      from: "Rohtak",
+      to: "Chandigarh",
+      time: "6:30 AM",
+      type: "AC",
+    },
+    {
+      from: "Rohtak",
+      to: "Delhi",
+      time: "8:00 AM",
+      type: "Ordinary",
+    },
+    {
+      from: "Panipat",
+      to: "Chandigarh",
+      time: "9:15 AM",
+      type: "Volvo",
+    },
+    {
+      from: "Rohtak",
+      to: "Chandigarh",
+      time: "1:00 PM",
+      type: "Ordinary",
+    },
+  ];
 
   function handleSearch() {
-    alert(`Searching buses from ${fromCity} to ${toCity}`);
+
+    const filteredBuses = buses.filter(
+      (bus) =>
+        bus.from.toLowerCase() === fromCity.toLowerCase() &&
+        bus.to.toLowerCase() === toCity.toLowerCase()
+    );
+
+    setResults(filteredBuses);
   }
 
   return (
@@ -25,11 +60,8 @@ function App() {
         Search Bus Routes and Timings
       </p>
 
-      <div
-        style={{
-          marginTop: "30px",
-        }}
-      >
+      <div style={{ marginTop: "30px" }}>
+
         <input
           type="text"
           placeholder="Enter Starting City"
@@ -70,6 +102,46 @@ function App() {
       >
         Search Buses
       </button>
+
+      <div style={{ marginTop: "40px" }}>
+
+        {results.length > 0 ? (
+
+          results.map((bus, index) => (
+
+            <div
+              key={index}
+              style={{
+                border: "1px solid gray",
+                width: "400px",
+                margin: "20px auto",
+                padding: "20px",
+                borderRadius: "10px",
+              }}
+            >
+              <h3>
+                {bus.from} → {bus.to}
+              </h3>
+
+              <p>
+                Time: {bus.time}
+              </p>
+
+              <p>
+                Bus Type: {bus.type}
+              </p>
+
+            </div>
+          ))
+
+        ) : (
+
+          <p>No buses found</p>
+
+        )}
+
+      </div>
+
     </div>
   );
 }

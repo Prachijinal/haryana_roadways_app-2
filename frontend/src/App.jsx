@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BusCard from "./components/BusCard";
+import SearchBar from "./components/SearchBar";
 
 function App() {
 
@@ -75,58 +76,13 @@ function App() {
         Search Bus Routes and Timings Easily
       </p>
 
-      <div
-        style={{
-          marginTop: "30px",
-        }}
-      >
-
-        <input
-          type="text"
-          placeholder="Enter Starting City"
-          value={fromCity}
-          onChange={(e) => setFromCity(e.target.value)}
-          style={{
-            padding: "12px",
-            width: "260px",
-            marginRight: "10px",
-            borderRadius: "8px",
-            border: "1px solid gray",
-            fontSize: "16px",
-          }}
-        />
-
-        <input
-          type="text"
-          placeholder="Enter Destination City"
-          value={toCity}
-          onChange={(e) => setToCity(e.target.value)}
-          style={{
-            padding: "12px",
-            width: "260px",
-            borderRadius: "8px",
-            border: "1px solid gray",
-            fontSize: "16px",
-          }}
-        />
-
-      </div>
-
-      <button
-        onClick={handleSearch}
-        style={{
-          marginTop: "25px",
-          padding: "12px 30px",
-          backgroundColor: "green",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-          fontSize: "16px",
-        }}
-      >
-        Search Buses
-      </button>
+      <SearchBar
+        fromCity={fromCity}
+        toCity={toCity}
+        setFromCity={setFromCity}
+        setToCity={setToCity}
+        handleSearch={handleSearch}
+      />
 
       <div
         style={{
@@ -137,11 +93,11 @@ function App() {
         {results.length > 0 ? (
 
           results.map((bus, index) => (
-          <BusCard
-            key={index}
-            bus={bus}
-          />
-        ))
+            <BusCard
+              key={index}
+              bus={bus}
+            />
+          ))
 
         ) : (
 

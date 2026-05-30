@@ -1,4 +1,5 @@
 import { useState } from "react";
+import BusCard from "./components/BusCard";
 
 function App() {
 
@@ -136,34 +137,11 @@ function App() {
         {results.length > 0 ? (
 
           results.map((bus, index) => (
-
-            <div
-              key={index}
-              style={{
-                backgroundColor: "white",
-                width: "420px",
-                margin: "20px auto",
-                padding: "20px",
-                borderRadius: "12px",
-                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-              }}
-            >
-
-              <h2 style={{ color: "green" }}>
-                {bus.from} → {bus.to}
-              </h2>
-
-              <p style={{ fontSize: "18px" }}>
-                🕒 Time: {bus.time}
-              </p>
-
-              <p style={{ fontSize: "18px" }}>
-                🚌 Bus Type: {bus.type}
-              </p>
-
-            </div>
-
-          ))
+          <BusCard
+            key={index}
+            bus={bus}
+          />
+        ))
 
         ) : (
 

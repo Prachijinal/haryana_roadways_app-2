@@ -22,7 +22,10 @@ function App() {
         setLoading(false);
       });
   }, []);
-
+  const cities = [...new Set(
+    buses.flatMap(bus => [bus.from, bus.to])
+  )];
+  
   function handleSearch() {
 
     console.log("All Buses:", buses);
@@ -73,6 +76,7 @@ function App() {
         setFromCity={setFromCity}
         setToCity={setToCity}
         handleSearch={handleSearch}
+        cities={cities}
       />
 
       <div style={{ marginTop: "50px" }}>

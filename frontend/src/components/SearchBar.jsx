@@ -4,12 +4,15 @@ function SearchBar({
   setFromCity,
   setToCity,
   handleSearch,
+  cities
 }) {
+
   function handleKeyPress(event) {
     if (event.key === "Enter") {
       handleSearch();
     }
   }
+
   return (
     <div>
 
@@ -18,13 +21,13 @@ function SearchBar({
           marginTop: "30px",
         }}
       >
+
         <input
           type="text"
           placeholder="Enter Starting City"
+          list="fromCities"
           value={fromCity}
-          onChange={(e) =>
-            setFromCity(e.target.value)
-          }
+          onChange={(e) => setFromCity(e.target.value)}
           onKeyDown={handleKeyPress}
           style={{
             padding: "12px",
@@ -35,13 +38,21 @@ function SearchBar({
           }}
         />
 
+        <datalist id="fromCities">
+          {cities.map((city, index) => (
+            <option
+              key={index}
+              value={city}
+            />
+          ))}
+        </datalist>
+
         <input
           type="text"
           placeholder="Enter Destination City"
+          list="toCities"
           value={toCity}
-          onChange={(e) =>
-            setToCity(e.target.value)
-          }
+          onChange={(e) => setToCity(e.target.value)}
           onKeyDown={handleKeyPress}
           style={{
             padding: "12px",
@@ -50,6 +61,16 @@ function SearchBar({
             border: "1px solid gray",
           }}
         />
+
+        <datalist id="toCities">
+          {cities.map((city, index) => (
+            <option
+              key={index}
+              value={city}
+            />
+          ))}
+        </datalist>
+
       </div>
 
       <button

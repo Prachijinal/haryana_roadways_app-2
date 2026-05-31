@@ -7,32 +7,37 @@ function App() {
   const [toCity, setToCity] = useState("");
   const [results, setResults] = useState([]);
   const [buses, setBuses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searched, setSearched] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/buses")
       .then((response) => response.json())
       .then((data) => {
         setBuses(data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   }, []);
 
   function handleSearch() {
 
-  console.log("All Buses:", buses);
+    console.log("All Buses:", buses);
 
-  const filteredBuses = buses.filter(
-    (bus) =>
-      bus.from.toLowerCase() === fromCity.toLowerCase() &&
-      bus.to.toLowerCase() === toCity.toLowerCase()
-  );
+    setSearched(true);
+    const filteredBuses = buses.filter(
+      (bus) =>
+        bus.from.toLowerCase() === fromCity.toLowerCase() &&
+        bus.to.toLowerCase() === toCity.toLowerCase()
+    );
 
-  console.log("Filtered:", filteredBuses);
+    console.log("Filtered:", filteredBuses);
 
-  setResults(filteredBuses);
-}
+    setResults(filteredBuses);
+  }
 
   return (
     <div
@@ -70,29 +75,34 @@ function App() {
         handleSearch={handleSearch}
       />
 
-      <div
-        style={{
-          marginTop: "50px",
-        }}
-      >
-        {results.length > 0 ? (
+      <div style={{ marginTop: "50px" }}>
+
+        {loading ? (
+
+          <p>Loading buses...</p>
+
+        ) : results.length > 0 ? (
+
           results.map((bus, index) => (
             <BusCard
               key={index}
               bus={bus}
             />
           ))
-        ) : (
+
+        ) : searched ? (
+
           <p
             style={{
-              marginTop: "30px",
-              color: "gray",
+              color: "red",
               fontSize: "18px",
             }}
           >
-            No buses found
+            No buses found for this route.
           </p>
-        )}
+
+        ) : null}
+
       </div>
     </div>
   );

@@ -5,6 +5,11 @@ function SearchBar({
   setToCity,
   handleSearch,
 }) {
+  function handleKeyPress(event) {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  }
   return (
     <div>
 
@@ -20,6 +25,7 @@ function SearchBar({
           onChange={(e) =>
             setFromCity(e.target.value)
           }
+          onKeyDown={handleKeyPress}
           style={{
             padding: "12px",
             width: "260px",
@@ -36,6 +42,7 @@ function SearchBar({
           onChange={(e) =>
             setToCity(e.target.value)
           }
+          onKeyDown={handleKeyPress}
           style={{
             padding: "12px",
             width: "260px",
@@ -50,7 +57,7 @@ function SearchBar({
         style={{
           marginTop: "25px",
           padding: "12px 30px",
-          backgroundColor: "green",
+          backgroundColor: "rgb(0, 73, 138)",
           color: "white",
           border: "none",
           borderRadius: "8px",

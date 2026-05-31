@@ -1,39 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BusCard from "./components/BusCard";
 import SearchBar from "./components/SearchBar";
-import buses from "./data/buses";
 
 function App() {
-
   const [fromCity, setFromCity] = useState("");
   const [toCity, setToCity] = useState("");
   const [results, setResults] = useState([]);
+  const [buses, setBuses] = useState([]);
 
-  
+  useEffect(() => {
+    fetch("http://localhost:5000/api/buses")
+      .then((response) => response.json())
+      .then((data) => {
+        setBuses(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   function handleSearch() {
 
-    const filteredBuses = buses.filter(
-      (bus) =>
-        bus.from.toLowerCase() === fromCity.toLowerCase() &&
-        bus.to.toLowerCase() === toCity.toLowerCase()
-    );
+  console.log("All Buses:", buses);
 
-    setResults(filteredBuses);
-  }
+  const filteredBuses = buses.filter(
+    (bus) =>
+      bus.from.toLowerCase() === fromCity.toLowerCase() &&
+      bus.to.toLowerCase() === toCity.toLowerCase()
+  );
+
+  console.log("Filtered:", filteredBuses);
+
+  setResults(filteredBuses);
+}
 
   return (
-
     <div
       style={{
         minHeight: "100vh",
-        backgroundColor: "#ffffff",
+        backgroundColor: "#f0f4f8",
         paddingTop: "50px",
         fontFamily: "Arial",
         textAlign: "center",
       }}
     >
-
       <h1
         style={{
           color: "green",
@@ -46,7 +56,7 @@ function App() {
       <p
         style={{
           fontSize: "18px",
-          color: "#01301d",
+          color: "#444",
         }}
       >
         Search Bus Routes and Timings Easily
@@ -65,18 +75,14 @@ function App() {
           marginTop: "50px",
         }}
       >
-
         {results.length > 0 ? (
-
           results.map((bus, index) => (
             <BusCard
               key={index}
               bus={bus}
             />
           ))
-
         ) : (
-
           <p
             style={{
               marginTop: "30px",
@@ -86,11 +92,8 @@ function App() {
           >
             No buses found
           </p>
-
         )}
-
       </div>
-
     </div>
   );
 }

@@ -1,8 +1,21 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
-const buses = require("./data/buses");
+const mongoose = require("mongoose");
+
 
 const app = express();
+console.log(process.env.MONGO_URI);
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB Connected");
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 app.use(cors());
 

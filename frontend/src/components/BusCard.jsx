@@ -11,15 +11,15 @@ function BusCard({ bus }) {
       }}
     >
       <h2 style={{ color: "green" }}>
-        {bus.from} → {bus.to}
+        {bus.source} → {bus.destination}
       </h2>
 
       <p>
-        🕒 Time: {bus.time}
+        🕒 Departure Time: {bus.departureTime}
       </p>
 
       <p>
-        🚌 Bus Type: {bus.type}
+        🏁 Arrival Time: {bus.arrivalTime}
       </p>
     </div>
   );

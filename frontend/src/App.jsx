@@ -23,9 +23,9 @@ function App() {
       });
   }, []);
   const cities = [...new Set(
-    buses.flatMap(bus => [bus.from, bus.to])
+    buses.flatMap(bus => [bus.source, bus.destination])
   )];
-  
+
   function handleSearch() {
 
     console.log("All Buses:", buses);
@@ -33,8 +33,8 @@ function App() {
     setSearched(true);
     const filteredBuses = buses.filter(
       (bus) =>
-        bus.from.toLowerCase() === fromCity.toLowerCase() &&
-        bus.to.toLowerCase() === toCity.toLowerCase()
+        bus.source.toLowerCase() === fromCity.toLowerCase() &&
+        bus.destination.toLowerCase() === toCity.toLowerCase()
     );
 
     console.log("Filtered:", filteredBuses);

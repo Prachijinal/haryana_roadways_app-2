@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import BusCard from "./components/BusCard";
 import SearchBar from "./components/SearchBar";
+import AddBus from "./components/AddBus";
 
 function App() {
   const [fromCity, setFromCity] = useState("");
@@ -78,6 +79,8 @@ function App() {
         handleSearch={handleSearch}
         cities={cities}
       />
+      
+      <AddBus />
 
       <div style={{ marginTop: "50px" }}>
 

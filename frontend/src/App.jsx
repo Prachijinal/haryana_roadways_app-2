@@ -27,7 +27,29 @@ function App() {
     buses.flatMap(bus => [bus.source, bus.destination])
   )];
 
+  async function handleDeleteBus(id) {
+    try {
+      await fetch(`http://localhost:5000/api/buses/${id}`, {
+        method: "DELETE",
+      });
+
+      setBuses((prevBuses) =>
+        prevBuses.filter((bus) => bus._id !== id)
+      );
+
+      setResults((prevResults) =>
+        prevResults.filter((bus) => bus._id !== id)
+      );
+
+      alert("Bus Deleted Successfully!");
+    } catch (error) {
+      console.log(error);
+      alert("Failed to delete bus");
+    }
+  }
+
   function handleSearch() {
+
 
     console.log("All Buses:", buses);
 
@@ -79,7 +101,7 @@ function App() {
         handleSearch={handleSearch}
         cities={cities}
       />
-      
+
       <AddBus />
 
       <div style={{ marginTop: "50px" }}>
@@ -90,10 +112,11 @@ function App() {
 
         ) : results.length > 0 ? (
 
-          results.map((bus, index) => (
+          results.map((bus) => (
             <BusCard
-              key={index}
+              key={bus._id}
               bus={bus}
+              onDelete={handleDeleteBus}
             />
           ))
 

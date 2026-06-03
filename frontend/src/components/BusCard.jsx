@@ -1,4 +1,5 @@
-function BusCard({ bus }) {
+function BusCard({ bus, onDelete })  {
+  
   return (
     <div
       style={{
@@ -21,6 +22,20 @@ function BusCard({ bus }) {
       <p>
         🏁 Arrival Time: {bus.arrivalTime}
       </p>
+      <button
+        onClick={() => onDelete(bus._id)}
+        style={{
+          backgroundColor: "red",
+          color: "white",
+          border: "none",
+          padding: "8px 15px",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        Delete Bus
+      </button>
+
     </div>
   );
 }

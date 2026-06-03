@@ -25,6 +25,11 @@ function AddBus() {
 
             console.log("Bus Added:", data);
 
+            setSource("");
+            setDestination("");
+            setDepartureTime("");
+            setArrivalTime("");
+
             alert("Bus Added Successfully!");
         } catch (error) {
             console.log(error);

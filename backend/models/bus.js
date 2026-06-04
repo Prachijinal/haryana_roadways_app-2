@@ -1,23 +1,19 @@
 const mongoose = require("mongoose");
 
 const busSchema = new mongoose.Schema({
-  
   source: {
     type: String,
     required: true,
   },
-
   destination: {
     type: String,
     required: true,
   },
-
-  departureTime: {
+  via: {
     type: String,
     required: true,
   },
-
-  arrivalTime: {
+  departureTime: {
     type: String,
     required: true,
   },

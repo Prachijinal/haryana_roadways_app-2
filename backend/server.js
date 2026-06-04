@@ -124,17 +124,6 @@ app.post("/api/upload-pdf", upload.single("pdf"), async (req, res) => {
 
     console.log(busLines.slice(0, 5));
 
-    const firstLine = busLines[0];
-
-    const timeMatch = firstLine.match(/\d{2}:\d{2}/);
-
-    console.log("First Line:", firstLine);
-    console.log("Time Found:", timeMatch[0]);
-
-    const beforeTime = firstLine.split(timeMatch[0])[0];
-
-    console.log("Before Time:", beforeTime);
-
     const cities = [
       "CHANDIGARH",
       "DELHI",
@@ -147,22 +136,43 @@ app.post("/api/upload-pdf", upload.single("pdf"), async (req, res) => {
       "AMBALA",
     ];
 
-    const foundCities = cities.filter((city) =>
-      beforeTime.includes(city)
-    );
+    let savedCount = 0;
 
-    console.log("Cities Found:", foundCities);
+    for (const line of busLines) {
 
-    const bus = new Bus({
-      source: foundCities[0],
-      destination: foundCities[1],
-      via: foundCities[2],
-      departureTime: timeMatch[0],
-    });
+      const timeMatch = line.match(/\d{2}:\d{2}/);
 
-    await bus.save();
+      if (!timeMatch) continue;
 
-    console.log("Bus Saved");
+      const beforeTime = line.split(timeMatch[0])[0];
+
+      const foundCities = cities.filter((city) =>
+        beforeTime.includes(city)
+      );
+
+      console.log("Cities Found:", foundCities);
+
+      if (foundCities.length < 3) {
+        continue;
+      }
+
+      const bus = new Bus({
+        source: foundCities[0],
+        destination: foundCities[1],
+        via: foundCities[2],
+        departureTime: timeMatch[0],
+      });
+
+      await bus.save();
+
+      savedCount++;
+
+      console.log(
+        `Saved Bus ${savedCount}: ${foundCities[0]} -> ${foundCities[1]}`
+      );
+    }
+
+    console.log(`Total Saved: ${savedCount}`);
 
 
     res.status(200).json({

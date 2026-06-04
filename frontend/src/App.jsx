@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import BusCard from "./components/BusCard";
 import SearchBar from "./components/SearchBar";
 import AdminUpload from "./components/AdminUpload";
-// import AddBus from "./components/AddBus";
 
 function App() {
   const [fromCity, setFromCity] = useState("");
@@ -16,30 +15,25 @@ function App() {
     fetch("http://localhost:5000/api/buses")
       .then((response) => response.json())
       .then((data) => {
-        setBuses(data);
-        setLoading(false);
-      })
-
-      .then((data) => {
         console.log("DATA FROM API:", data);
-        setBuses(data);
+
+        setBuses(Array.isArray(data) ? data : []);
         setLoading(false);
       })
-
       .catch((error) => {
         console.log(error);
         setLoading(false);
       });
-
-
-
   }, []);
 
-  const cities = [...new Set(
-    (Array.isArray(buses) ? buses : [])
-      .flatMap(bus => [bus.source, bus.destination])
-  )];
-
+  const cities = [
+    ...new Set(
+      (Array.isArray(buses) ? buses : []).flatMap((bus) => [
+        bus.source,
+        bus.destination,
+      ])
+    ),
+  ];
 
   async function handleDeleteBus(id) {
     try {
@@ -63,15 +57,14 @@ function App() {
   }
 
   function handleSearch() {
-
-
-    console.log("All Buses:", buses);
-
     setSearched(true);
+
     const filteredBuses = buses.filter(
       (bus) =>
-        bus.source.toLowerCase() === fromCity.toLowerCase() &&
-        bus.destination.toLowerCase() === toCity.toLowerCase()
+        bus.source?.trim().toLowerCase() ===
+          fromCity.trim().toLowerCase() &&
+        bus.destination?.trim().toLowerCase() ===
+          toCity.trim().toLowerCase()
     );
 
     console.log("Filtered:", filteredBuses);
@@ -116,17 +109,12 @@ function App() {
         cities={cities}
       />
 
-      {/* <AddBus /> */}
       <AdminUpload />
 
       <div style={{ marginTop: "50px" }}>
-
         {loading ? (
-
           <p>Loading buses...</p>
-
         ) : results.length > 0 ? (
-
           results.map((bus) => (
             <BusCard
               key={bus._id}
@@ -134,9 +122,7 @@ function App() {
               onDelete={handleDeleteBus}
             />
           ))
-
         ) : searched ? (
-
           <p
             style={{
               color: "red",
@@ -145,9 +131,7 @@ function App() {
           >
             No buses found for this route.
           </p>
-
         ) : null}
-
       </div>
     </div>
   );

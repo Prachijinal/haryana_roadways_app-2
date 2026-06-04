@@ -137,6 +137,7 @@ app.post("/api/upload-pdf", upload.single("pdf"), async (req, res) => {
     ];
 
     let savedCount = 0;
+    let duplicateCount = 0;
 
     for (const line of busLines) {
 
@@ -150,34 +151,56 @@ app.post("/api/upload-pdf", upload.single("pdf"), async (req, res) => {
         beforeTime.includes(city)
       );
 
-      console.log("Cities Found:", foundCities);
-
       if (foundCities.length < 3) {
         continue;
       }
 
-      const bus = new Bus({
-        source: foundCities[0],
-        destination: foundCities[1],
-        via: foundCities[2],
-        departureTime: timeMatch[0],
-      });
+      const source = foundCities[0];
+      const destination = foundCities[1];
+      const via = foundCities[2];
+      const departureTime = timeMatch[0];
 
-      await bus.save();
+      const result = await Bus.updateOne(
+        {
+          source,
+          destination,
+          via,
+          departureTime,
+        },
+        {
+          $setOnInsert: {
+            source,
+            destination,
+            via,
+            departureTime,
+          },
+        },
+        {
+          upsert: true,
+        }
+      );
 
-      savedCount++;
+      if (result.upsertedCount > 0) {
+        savedCount++;
+      } else {
+        duplicateCount++;
+      }
 
       console.log(
-        `Saved Bus ${savedCount}: ${foundCities[0]} -> ${foundCities[1]}`
+        `${source} -> ${destination} (${departureTime})`
       );
     }
 
-    console.log(`Total Saved: ${savedCount}`);
-
+    console.log(`New Buses Saved: ${savedCount}`);
+    console.log(`Duplicates Skipped: ${duplicateCount}`);
 
     res.status(200).json({
       message: "PDF Uploaded Successfully",
+      saved: savedCount,
+      duplicates: duplicateCount,
     });
+
+
   } catch (error) {
     console.log("PDF ERROR:", error);
 

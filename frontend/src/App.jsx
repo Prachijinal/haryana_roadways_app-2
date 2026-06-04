@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import BusCard from "./components/BusCard";
 import SearchBar from "./components/SearchBar";
-import AddBus from "./components/AddBus";
+import AdminUpload from "./components/AdminUpload";
+// import AddBus from "./components/AddBus";
 
 function App() {
   const [fromCity, setFromCity] = useState("");
@@ -18,14 +19,27 @@ function App() {
         setBuses(data);
         setLoading(false);
       })
+
+      .then((data) => {
+        console.log("DATA FROM API:", data);
+        setBuses(data);
+        setLoading(false);
+      })
+
       .catch((error) => {
         console.log(error);
         setLoading(false);
       });
+
+
+
   }, []);
+
   const cities = [...new Set(
-    buses.flatMap(bus => [bus.source, bus.destination])
+    (Array.isArray(buses) ? buses : [])
+      .flatMap(bus => [bus.source, bus.destination])
   )];
+
 
   async function handleDeleteBus(id) {
     try {
@@ -102,7 +116,8 @@ function App() {
         cities={cities}
       />
 
-      <AddBus />
+      {/* <AddBus /> */}
+      <AdminUpload />
 
       <div style={{ marginTop: "50px" }}>
 
